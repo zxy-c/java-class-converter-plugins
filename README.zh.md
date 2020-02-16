@@ -3,7 +3,7 @@
 
 将Java、Kotlin的类转换成其他语言的定义方式
 
-## Java Class to Typescript
+## [Java Class to Typescript](https://plugins.jetbrains.com/plugin/13800-java-class-to-typescript)
 ### 功能
 - 将Java、Kotlin的Class转换成Typescript的`interface`
     - 生成文件至指定目录
