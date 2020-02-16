@@ -1,4 +1,4 @@
-*java-to-typescript* JetBrains插件
+*java-converter-plugin* JetBrains插件
 =========================
 
 将Java、Kotlin的类转换成其他语言的定义方式
