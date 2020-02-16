@@ -1,12 +1,12 @@
 package com.zxy.ijplugin.javaToTypescript.actions
 
-import com.intellij.ide.util.DirectoryChooserUtil
 import com.intellij.lang.javascript.psi.JSFile
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.runWriteAction
-import com.intellij.openapi.roots.ProjectRootManager
+import com.intellij.openapi.fileChooser.FileChooser
+import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.psi.PsiManager
 
 class ClassToTypescriptInterfaceAtFileAction : AbstractClassToTypescriptFileAction() {
@@ -14,10 +14,15 @@ class ClassToTypescriptInterfaceAtFileAction : AbstractClassToTypescriptFileActi
     override fun processFile(jsFile: JSFile, e: AnActionEvent) {
         val project = e.getData(CommonDataKeys.PROJECT) ?: return
         val ideView = e.getData(LangDataKeys.IDE_VIEW) ?: return
-
-        DirectoryChooserUtil.chooseDirectory(ProjectRootManager.getInstance(project).contentRoots.mapNotNull {
+        val directories = ideView.directories
+        val defaultSelectedFile = if (directories.size == 1) directories[0] else null
+        FileChooser.chooseFile(
+            FileChooserDescriptor(false, true, false, false, false, false),
+            project,
+            defaultSelectedFile?.virtualFile
+        )?.let {
             PsiManager.getInstance(project).findDirectory(it)
-        }.toTypedArray(), ideView.directories.firstOrNull(), project, null)?.let {
+        }?.let {
             runWriteAction {
                 it.add(jsFile)
             }
