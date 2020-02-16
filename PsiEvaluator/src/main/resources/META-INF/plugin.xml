@@ -1,0 +1,32 @@
+<!--suppress PluginXmlValidity -->
+<idea-plugin>
+    <id>com.zxy.ijplugin.psiEvaluator</id>
+    <name>JavaPsiEvaluator</name>
+    <version>1.0</version>
+    <depends optional="true" config-file="plugin-kotlin.xml">org.jetbrains.kotlin</depends>
+    <extensionPoints>
+        <extensionPoint name="typeEvaluatorProvider"
+                        interface="com.zxy.ijplugin.psiEvaluator.resolve.TypeEvaluatorProvider"/>
+        <extensionPoint name="fieldEvaluatorProvider"
+                        interface="com.zxy.ijplugin.psiEvaluator.resolve.FieldEvaluatorProvider"/>
+        <extensionPoint name="enumClassEvaluatorProvider"
+                        interface="com.zxy.ijplugin.psiEvaluator.resolve.EnumClassEvaluatorProvider"/>
+        <extensionPoint name="docResolverProvider"
+                        interface="com.zxy.ijplugin.psiEvaluator.resolve.DocResolverProvider"/>
+        <extensionPoint name="classEvaluatorProvider"
+                        interface="com.zxy.ijplugin.psiEvaluator.resolve.ClassEvaluatorProvider"/>
+    </extensionPoints>
+
+    <extensions defaultExtensionNs="com.zxy.ijplugin.psiEvaluator">
+        <classEvaluatorProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.java.JavaClassEvaluatorProvider"/>
+        <typeEvaluatorProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.java.JavaTypeEvaluatorProvider"/>
+        <docResolverProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.java.JavaDocResolverProvider"/>
+        <fieldEvaluatorProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.java.JavaFieldEvaluatorProvider"/>
+        <enumClassEvaluatorProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.java.JavaEnumClassEvaluatorProvider"/>
+    </extensions>
+</idea-plugin>

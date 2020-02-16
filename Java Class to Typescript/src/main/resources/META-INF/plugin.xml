@@ -1,0 +1,25 @@
+<idea-plugin>
+    <id>com.zxy.ijplugin.javaClassToTypescript</id>
+    <name>Java Class To Typescript</name>
+    <vendor email="2544682494@qq.com" url="https://github.com/zxy-c/java-to-typescript">Github</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.zxy.ijplugin.psiEvaluator</depends>
+    <depends>com.intellij.java</depends>
+    <depends optional="true" config-file="plugin-ts.xml">JavaScript</depends>
+    <!--    <depends optional="true" config-file="plugin-kotlin.xml">org.jetbrains.kotlin</depends>-->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <action id="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptInterfaceAtClipboardAction"
+                class="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptInterfaceAtClipboardAction"
+                text="Generate Typescript Interface to Clipboard"
+                description="Convert a class to Typescript interface">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt T"/>
+        </action>
+    </actions>
+</idea-plugin>

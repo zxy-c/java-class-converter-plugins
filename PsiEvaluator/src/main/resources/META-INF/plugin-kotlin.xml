@@ -1,0 +1,14 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.zxy.ijplugin.psiEvaluator">
+        <classEvaluatorProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.kotlin.KotlinClassEvaluatorProvider"/>
+        <typeEvaluatorProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.kotlin.KotlinTypeEvaluatorProvider"/>
+        <docResolverProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.kotlin.KotlinDocResolverProvider"/>
+        <fieldEvaluatorProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.kotlin.KotlinFieldEvaluatorProvider"/>
+        <enumClassEvaluatorProvider
+                implementation="com.zxy.ijplugin.psiEvaluator.resolve.lang.kotlin.KotlinEnumClassEvaluatorProvider"/>
+    </extensions>
+</idea-plugin>
