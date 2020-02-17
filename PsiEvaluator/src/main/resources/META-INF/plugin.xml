@@ -3,6 +3,8 @@
     <id>com.zxy.ijplugin.psiEvaluator</id>
     <name>JavaPsiEvaluator</name>
     <version>1.0</version>
+    <vendor url="https://github.com/zxy-c/java-class-converter-plugins">Github</vendor>
+    <description>Parser for converting Java and Kotlin into other languages</description>
     <depends optional="true" config-file="plugin-kotlin.xml">org.jetbrains.kotlin</depends>
     <extensionPoints>
         <extensionPoint name="typeEvaluatorProvider"

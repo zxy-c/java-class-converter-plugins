@@ -29,10 +29,14 @@ intellij {
     type "IU"
 //    version 'IU-LATEST-EAP-SNAPSHOT'
     localPath localIdeaPath
-    plugins = ["Kotlin","JavaScriptLanguage",'java']
+    plugins = ["Kotlin",'java']
     downloadSources = true
 }
 
 publishPlugin{
     token intellijPublishToken
+}
+
+patchPluginXml{
+    sinceBuild "192"
 }
