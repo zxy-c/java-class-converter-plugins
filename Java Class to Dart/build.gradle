@@ -1,0 +1,58 @@
+/*
+ *    Copyright (c) [$year] [zxy]
+ *    [java-class-converter-plugins] is licensed under the Mulan PSL v1.
+ *    You can use this software according to the terms and conditions of the Mulan PSL v1.
+ *    You may obtain a copy of Mulan PSL v1 at:
+ *       http://license.coscl.org.cn/MulanPSL
+ *    THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR
+ *    IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR
+ *    PURPOSE.
+ */
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.4.16'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
+}
+
+group 'org.ijplugin'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+def psiEvaluatorProject = project(":PsiEvaluator")
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+patchPluginXml {
+    changeNotes """"""
+    sinceBuild "192"
+    pluginDescription """
+Class for converting Java and Kotlin classes into Dart
+"""
+}
+
+intellij {
+    type "IU"
+    localPath localIdeaPath
+    plugins = ["Kotlin", 'java', "Dart:193.6494.35", psiEvaluatorProject]
+    downloadSources = true
+}
+
+publishPlugin {
+    token intellijPublishToken
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}

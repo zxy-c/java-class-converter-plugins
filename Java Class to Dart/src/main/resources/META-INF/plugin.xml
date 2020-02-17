@@ -1,0 +1,41 @@
+<!--
+  ~    Copyright (c) [$year] [zxy]
+  ~    [java-class-converter-plugins] is licensed under the Mulan PSL v1.
+  ~    You can use this software according to the terms and conditions of the Mulan PSL v1.
+  ~    You may obtain a copy of Mulan PSL v1 at:
+  ~       http://license.coscl.org.cn/MulanPSL
+  ~    THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR
+  ~    IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR
+  ~    PURPOSE.
+  -->
+
+<idea-plugin>
+    <id>org.ijplugin.javaClassToDart</id>
+    <name>Java Class to Dart</name>
+    <vendor email="2544682494@qq.com" url="https://github.com/zxy-c/java-class-converter-plugins">Github</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+    <depends>com.zxy.ijplugin.psiEvaluator</depends>
+    <depends optional="true" config-file="plugin-dart.xml">Dart</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <group id="com.zxy.ijplugin.javaToDart.JavaClassToDartClass"
+               text="Convert to Dart Class"
+               popup="true"
+               compact="true"
+        >
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </group>
+        <action id="com.zxy.ijplugin.javaToDart.actions.ClassToDartClassAtClipboardAction"
+                class="com.zxy.ijplugin.javaToDart.actions.ClassToDartClassAtClipboardAction"
+                text="Generate Dart Class to Clipboard"
+                description="Convert a class to Dart class">
+            <add-to-group group-id="com.zxy.ijplugin.javaToDart.JavaClassToDartClass"/>
+        </action>
+    </actions>
+</idea-plugin>
