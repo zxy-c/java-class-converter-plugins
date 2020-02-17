@@ -63,6 +63,6 @@ abstract class AbstractJavaTypeEvaluator<T : PsiElement>(type: T) :
     }
 
     override fun isMap(): Boolean {
-        return classEvaluator?.instanceof("java.utl.Map") == true
+        return classEvaluator?.instanceof("java.util.Map") == true
     }
 }
