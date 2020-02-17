@@ -1,0 +1,4 @@
+rootProject.name = 'Java Class Converter'
+include 'PsiEvaluator'
+include 'Java Class to Typescript'
+
