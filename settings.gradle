@@ -12,4 +12,4 @@
 rootProject.name = 'Java Class Converter'
 include 'PsiEvaluator'
 include 'Java Class to Typescript'
-
+include 'Java Class to Dart'
