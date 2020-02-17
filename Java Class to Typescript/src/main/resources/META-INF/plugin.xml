@@ -30,7 +30,6 @@
                 text="Generate Typescript Interface to Clipboard"
                 description="Convert a class to Typescript interface">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt T"/>
         </action>
     </actions>
 </idea-plugin>

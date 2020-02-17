@@ -16,7 +16,6 @@
                 text="Generate Typescript File to Clipboard"
                 description="Convert a class to Typescript file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt Y"/>
         </action>
 
         <action id="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptInterfaceAtFileAction"
@@ -24,7 +23,6 @@
                 text="Generate Typescript File"
                 description="Convert a class to Typescript file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt U"/>
         </action>
     </actions>
 </idea-plugin>
