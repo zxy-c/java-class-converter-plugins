@@ -10,6 +10,36 @@ Declarations for converting Java and Kotlin classes to other languages
     - Generate files to specified directory
     - Generated files are saved in the clipboard
     - Generated code saved in clipboard
+    
+before
+```java
+class Book{
+    final String name;
+    double price;
+    Map<String,String> properties;
+    List<Author> authors;    
+}
+
+class Author{
+    String name;
+    Object age;
+}
+```
+
+after
+```typescript
+interface Book{
+    readonly name:string;
+    price:number;
+    [key :string]: string;
+    authors:Array<Author>
+}
+
+interface Author{
+    name:string;
+    age:number;
+}
+```
 
 ## Java Class to Dart
 ### Features
@@ -17,3 +47,34 @@ Declarations for converting Java and Kotlin classes to other languages
     - Generate files to specified directory
     - Generated files are saved in the clipboard
     - Generated code saved in clipboard
+
+
+before
+```java
+class Book{
+    final String name;
+    double price;
+    Map<String,String> properties;
+    List<Author> authors;    
+}
+
+class Author{
+    String name;
+    Object age;
+}
+```
+
+after
+```dart
+class Book{
+    final String name;
+    double price;
+    Map<String,String> properties;
+    List<Author> authors; 
+}
+
+class Author{
+    String name;
+    var age;
+}
+```
