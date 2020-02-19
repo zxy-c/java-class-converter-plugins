@@ -50,7 +50,15 @@ interface TypeEvaluator<TP : PsiElement> {
 
     fun isString(): Boolean
 
-    fun isNumber(): Boolean
+    fun isInt(): Boolean
+
+    fun isLong(): Boolean
+
+    fun isDouble(): Boolean
+
+    fun isFloat(): Boolean
+
+    fun isByte(): Boolean
 
     fun isArray(): Boolean
 
@@ -102,6 +110,10 @@ fun TypeEvaluator<*>.getClassEvaluator(): ClassEvaluator<*, *, *, *>? {
     return this.getClass()?.let {
         ClassEvaluator.create(it)
     }
+}
+
+fun TypeEvaluator<*>.isNumber(): Boolean {
+    return this.isInt() || this.isDouble() || this.isFloat() || this.isLong() || this.isByte()
 }
 
 fun TypeEvaluator<*>.isCustomObject(): Boolean {

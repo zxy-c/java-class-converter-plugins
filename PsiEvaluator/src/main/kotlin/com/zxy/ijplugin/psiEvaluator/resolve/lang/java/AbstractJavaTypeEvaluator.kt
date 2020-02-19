@@ -39,11 +39,24 @@ abstract class AbstractJavaTypeEvaluator<T : PsiElement>(type: T) :
         return this.psiType.isAssignableFrom(PsiType.CHAR) || classEvaluator?.instanceof("java.lang.String") == true
     }
 
-    override fun isNumber(): Boolean {
-        return psiType.isAssignableFrom(PsiType.DOUBLE) ||
-                psiType.isAssignableFrom(PsiType.FLOAT) ||
-                psiType.isAssignableFrom(PsiType.INT) ||
-                psiType.isAssignableFrom(PsiType.LONG)
+    override fun isInt(): Boolean {
+        return psiType.isAssignableFrom(PsiType.INT)
+    }
+
+    override fun isLong(): Boolean {
+        return psiType.isAssignableFrom(PsiType.LONG)
+    }
+
+    override fun isDouble(): Boolean {
+        return psiType.isAssignableFrom(PsiType.DOUBLE)
+    }
+
+    override fun isFloat(): Boolean {
+        return psiType.isAssignableFrom(PsiType.FLOAT)
+    }
+
+    override fun isByte(): Boolean {
+        return psiType.isAssignableFrom(PsiType.BYTE)
     }
 
     override fun isArray(): Boolean {

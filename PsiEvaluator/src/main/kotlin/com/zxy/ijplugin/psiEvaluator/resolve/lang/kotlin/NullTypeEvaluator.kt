@@ -40,10 +40,6 @@ class NullTypeEvaluator : TypeEvaluator<PsiElement>{
         return false
     }
 
-    override fun isNumber(): Boolean {
-        return false
-    }
-
     override fun isArray(): Boolean {
         return false
     }
@@ -70,6 +66,26 @@ class NullTypeEvaluator : TypeEvaluator<PsiElement>{
 
     override fun getName(): String? {
         return null
+    }
+
+    override fun isInt(): Boolean {
+        return false
+    }
+
+    override fun isLong(): Boolean {
+        return false
+    }
+
+    override fun isDouble(): Boolean {
+        return false
+    }
+
+    override fun isFloat(): Boolean {
+        return false
+    }
+
+    override fun isByte(): Boolean {
+        return false
     }
 }
 

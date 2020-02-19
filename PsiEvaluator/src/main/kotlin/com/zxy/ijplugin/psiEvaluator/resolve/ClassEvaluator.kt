@@ -14,6 +14,7 @@ package com.zxy.ijplugin.psiEvaluator.resolve
 import com.intellij.openapi.extensions.ExtensionPointName
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
+import com.zxy.ijplugin.psiEvaluator.resolve.utils.ObviousType
 
 interface ClassEvaluatorProvider {
     companion object {
@@ -74,5 +75,49 @@ abstract class AbstractClassEvaluator<C : PsiNamedElement, F : PsiNamedElement, 
 fun ClassEvaluator<*, *, *, *>.getDocResolver(): DocResolver? {
     return this.getDoc()?.let {
         DocResolver.create(it)
+    }
+}
+
+fun TypeEvaluator<*>.getObviousType(): ObviousType? {
+    return when {
+        this.isAny() -> {
+            ObviousType.ANY
+        }
+        this.isArray() -> {
+            ObviousType.ARRAY
+        }
+        this.isBoolean() -> {
+            ObviousType.BOOLEAN
+        }
+        this.isInt() -> {
+            ObviousType.INT
+        }
+        this.isDouble() -> {
+            ObviousType.DOUBLE
+        }
+        this.isFloat() -> {
+            ObviousType.FLOAT
+        }
+        this.isLong() -> {
+            ObviousType.LONG
+        }
+        this.isString() -> {
+            ObviousType.STRING
+        }
+        this.isVoid() -> {
+            null
+        }
+        this.isCollection() -> {
+            return ObviousType.COLLECTION
+        }
+        this.isMap() -> {
+            return ObviousType.MAP
+        }
+        this.getClassEvaluator() != null -> {
+            return ObviousType.OBJECT
+        }
+        else -> {
+            null
+        }
     }
 }

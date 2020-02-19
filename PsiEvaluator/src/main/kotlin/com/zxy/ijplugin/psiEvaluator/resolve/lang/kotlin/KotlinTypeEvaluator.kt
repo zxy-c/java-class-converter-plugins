@@ -76,8 +76,24 @@ class KotlinTypeEvaluator(typeReference: KtTypeReference) :
         return qualifiedClassName == "kotlin.String" || qualifiedClassName == "kotlin.Char"
     }
 
-    override fun isNumber(): Boolean {
-        return qualifiedClassName == "kotlin.Int" || qualifiedClassName == "kotlin.Long" || qualifiedClassName == "kotlin.Double" || qualifiedClassName == "kotlin.Float"
+    override fun isInt(): Boolean {
+        return qualifiedClassName == "kotlin.Int"
+    }
+
+    override fun isLong(): Boolean {
+        return qualifiedClassName == "kotlin.Long"
+    }
+
+    override fun isDouble(): Boolean {
+        return qualifiedClassName == "kotlin.Double"
+    }
+
+    override fun isFloat(): Boolean {
+        return qualifiedClassName == "kotlin.Float"
+    }
+
+    override fun isByte(): Boolean {
+        return qualifiedClassName == "kotlin.Float"
     }
 
     override fun isArray(): Boolean {
