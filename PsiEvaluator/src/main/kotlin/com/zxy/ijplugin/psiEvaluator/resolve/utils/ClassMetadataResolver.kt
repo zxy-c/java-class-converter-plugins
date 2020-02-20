@@ -11,26 +11,62 @@
 
 package com.zxy.ijplugin.psiEvaluator.resolve.utils
 
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
-import com.zxy.ijplugin.psiEvaluator.resolve.ClassEvaluator
+import com.zxy.ijplugin.psiEvaluator.resolve.*
 
-class ClassMetadataResolver(private val clazz: PsiNamedElement) {
+class ClassMetadataResolver private constructor(private val clazz: PsiNamedElement) {
 
-    val otherCustomClasses = mutableSetOf(clazz)
-
-    val resolvedClasses = mutableSetOf<PsiNamedElement>()
-
-    fun resolve(): Set<ClassMetadata>? {
-        val name = clazz.name
-        val classEvaluator = ClassEvaluator.create(clazz) ?: return null
-        val fields = classEvaluator.getFields()
-
+    companion object{
+        fun resolve(clazz: PsiNamedElement): Set<ClassMetadata> {
+            return ClassMetadataResolver(clazz).resolve()
+        }
     }
 
-    private fun resolveClass(clazz: PsiNamedElement) {
-        if (resolvedClasses.add(clazz)) {
+    private val otherCustomClasses = mutableSetOf<PsiNamedElement>()
 
+    private val resolvedClasses = mutableSetOf<PsiNamedElement>()
+
+    fun resolve(): Set<ClassMetadata> {
+        return this.resolveClass(clazz)
+    }
+
+    private fun resolveClass(clazz: PsiNamedElement): Set<ClassMetadata> {
+        val result = mutableSetOf<ClassMetadata>()
+        if (resolvedClasses.add(clazz)) {
+            val name = clazz.name ?: return emptySet()
+            val classEvaluator = ClassEvaluator.create(clazz) ?: return emptySet()
+            val doc = classEvaluator.getDocResolver()?.getDocContent()
+            val fields = classEvaluator.getFields()
+            result.add(ClassMetadata(name, fields.mapNotNull(this::resolveClassProperty).toSet(), doc))
+            result.addAll(otherCustomClasses.map(this::resolveClass).flatten())
         }
+        return result
+    }
+
+    private fun resolveClassProperty(property: PsiNamedElement): ClassPropertyMetadata? {
+        val fieldEvaluator = FieldEvaluator.create(property) ?: return null
+        val name = property.name ?: return null
+
+        val type = fieldEvaluator.getType() ?: return null
+        val typeEvaluator = TypeEvaluator.create(type) ?: return null
+        return ClassPropertyMetadata(
+            name,
+            resolveTypeMetadata(type) ?: return null,
+            typeEvaluator.isNullable(),
+            fieldEvaluator.isFinal(),
+            fieldEvaluator.getDocResolver()?.getDocContent()
+        )
+    }
+
+    private fun resolveTypeMetadata(psiElement: PsiElement): TypeMetadata? {
+        if (!psiElement.isValid) return null
+        val typeEvaluator = TypeEvaluator.create(psiElement) ?: return null
+        return TypeMetadata(
+            typeEvaluator.getName() ?: return null,
+            typeEvaluator.getObviousType(),
+            typeEvaluator.getTypeParameters()?.mapNotNull(this::resolveTypeMetadata) ?: emptyList()
+        )
     }
 
 }

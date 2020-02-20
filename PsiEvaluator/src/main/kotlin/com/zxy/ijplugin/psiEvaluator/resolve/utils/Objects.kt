@@ -28,7 +28,8 @@ enum class ObviousType {
 
 class ClassMetadata(
     val name: String,
-    val properties: Set<ClassPropertyMetadata>
+    val properties: Set<ClassPropertyMetadata>,
+    val doc:String?
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -50,7 +51,8 @@ class ClassPropertyMetadata(
     val name: String,
     val type: TypeMetadata,
     val isNullable: Boolean?,
-    val isFinal: Boolean
+    val isFinal: Boolean,
+    val doc:String?
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
