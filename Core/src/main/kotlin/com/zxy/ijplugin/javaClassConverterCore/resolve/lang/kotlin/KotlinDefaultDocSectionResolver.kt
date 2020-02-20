@@ -9,7 +9,20 @@
  *    PURPOSE.
  */
 
-rootProject.name = 'Java Class Converter'
-include 'Core'
-include 'Java Class to Typescript'
-include 'Java Class to Dart'
+package com.zxy.ijplugin.javaClassConverterCore.resolve.lang.kotlin
+
+import com.zxy.ijplugin.javaClassConverterCore.resolve.AbstractDocResolver
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
+
+/**
+ * KDoc的section概念尚未明了
+ * 只需关心default section即可
+ */
+class KotlinDefaultDocSectionResolver(docElement: KDocSection) : AbstractDocResolver<KDocSection>(docElement) {
+
+    override fun getDocContent(): String? {
+        return this.docElement.getContent()
+    }
+
+
+}

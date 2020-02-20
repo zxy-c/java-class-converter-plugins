@@ -15,7 +15,7 @@
     <vendor email="2544682494@qq.com" url="https://github.com/zxy-c/java-class-converter-plugins">Github</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.zxy.ijplugin.psiEvaluator</depends>
+    <depends>com.zxy.ijplugin.javaClassConverterCore</depends>
     <depends>com.intellij.java</depends>
     <depends optional="true" config-file="plugin-ts.xml">JavaScript</depends>
     <!--    <depends optional="true" config-file="plugin-kotlin.xml">org.jetbrains.kotlin</depends>-->

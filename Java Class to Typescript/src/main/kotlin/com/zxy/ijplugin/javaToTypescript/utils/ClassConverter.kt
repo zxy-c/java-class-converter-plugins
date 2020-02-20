@@ -13,7 +13,7 @@ package com.zxy.ijplugin.javaToTypescript.utils
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
-import com.zxy.ijplugin.psiEvaluator.resolve.*
+import com.zxy.ijplugin.javaClassConverterCore.resolve.*
 
 internal class ClassConverter(private val clazz:PsiNamedElement) {
 

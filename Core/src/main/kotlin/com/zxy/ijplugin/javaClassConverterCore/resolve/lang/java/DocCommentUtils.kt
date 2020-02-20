@@ -9,7 +9,17 @@
  *    PURPOSE.
  */
 
-rootProject.name = 'Java Class Converter'
-include 'Core'
-include 'Java Class to Typescript'
-include 'Java Class to Dart'
+package com.zxy.ijplugin.javaClassConverterCore.resolve.lang.java
+
+import com.intellij.psi.TokenType
+import com.intellij.psi.javadoc.PsiDocComment
+
+internal fun PsiDocComment.getContent(): String {
+    return this.descriptionElements.joinToString("") {
+        if (it.node.elementType == TokenType.WHITE_SPACE) {
+            it.text.replace(Regex(" +$"), "")
+        } else {
+            it.text.trim()
+        }
+    }.trim()
+}

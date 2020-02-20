@@ -17,7 +17,7 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.util.PsiTreeUtil
-import com.zxy.ijplugin.psiEvaluator.resolve.ClassEvaluator
+import com.zxy.ijplugin.javaClassConverterCore.resolve.ClassEvaluator
 import com.zxy.ijplugin.javaToTypescript.utils.ToTypescriptUtils
 
 abstract class AbstractClassToTypescriptAction : AnAction() {
