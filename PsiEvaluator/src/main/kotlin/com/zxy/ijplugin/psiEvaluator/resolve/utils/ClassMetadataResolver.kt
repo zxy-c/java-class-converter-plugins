@@ -47,7 +47,6 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
     private fun resolveClassProperty(property: PsiNamedElement): ClassPropertyMetadata? {
         val fieldEvaluator = FieldEvaluator.create(property) ?: return null
         val name = property.name ?: return null
-
         val type = fieldEvaluator.getType() ?: return null
         val typeEvaluator = TypeEvaluator.create(type) ?: return null
         return ClassPropertyMetadata(
@@ -62,9 +61,15 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
     private fun resolveTypeMetadata(psiElement: PsiElement): TypeMetadata? {
         if (!psiElement.isValid) return null
         val typeEvaluator = TypeEvaluator.create(psiElement) ?: return null
+        val obviousType = typeEvaluator.getObviousType()
+        if (obviousType == ObviousType.OBJECT) {
+            typeEvaluator.getClass()?.let {
+                otherCustomClasses.add(it)
+            }
+        }
         return TypeMetadata(
             typeEvaluator.getName() ?: return null,
-            typeEvaluator.getObviousType(),
+            obviousType,
             typeEvaluator.getTypeParameters()?.mapNotNull(this::resolveTypeMetadata) ?: emptyList()
         )
     }
