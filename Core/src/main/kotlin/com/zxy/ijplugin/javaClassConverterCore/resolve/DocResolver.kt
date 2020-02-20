@@ -13,7 +13,6 @@ package com.zxy.ijplugin.javaClassConverterCore.resolve
 
 import com.intellij.openapi.extensions.ExtensionPointName
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNamedElement
 
 interface DocResolverProvider {
     companion object {
@@ -29,12 +28,10 @@ interface DocResolver {
 
     companion object {
         fun create(psiElement: PsiElement): DocResolver? {
-            if (psiElement is PsiNamedElement) {
-                for (provider in DocResolverProvider.EXTENSION_POINT.extensions) {
-                    val resolver = provider.create(psiElement)
-                    if (resolver != null) {
-                        return resolver
-                    }
+            for (provider in DocResolverProvider.EXTENSION_POINT.extensions) {
+                val resolver = provider.create(psiElement)
+                if (resolver != null) {
+                    return resolver
                 }
             }
             return null
