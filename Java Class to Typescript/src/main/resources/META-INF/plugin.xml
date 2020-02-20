@@ -12,7 +12,7 @@
 <idea-plugin>
     <id>com.zxy.ijplugin.javaClassToTypescript</id>
     <name>Java Class To Typescript</name>
-    <vendor email="2544682494@qq.com" url="https://github.com/zxy-c/java-class-converter-plugins">Github</vendor>
+    <vendor email="2544682494@qq.com" url="https://github.com/zxy-c/java-class-converter-plugins">ZXY</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.zxy.ijplugin.javaClassConverterCore</depends>

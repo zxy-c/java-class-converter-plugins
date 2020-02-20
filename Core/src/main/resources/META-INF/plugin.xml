@@ -14,7 +14,7 @@
     <id>com.zxy.ijplugin.javaClassConverterCore</id>
     <name>Java Class Converter Core</name>
     <version>1.0</version>
-    <vendor url="https://github.com/zxy-c/java-class-converter-plugins">Github</vendor>
+    <vendor url="https://github.com/zxy-c/java-class-converter-plugins">ZXY</vendor>
     <description>Parser for converting Java and Kotlin into other languages</description>
     <depends>com.intellij.java</depends>
     <depends>com.intellij.modules.platform</depends>
