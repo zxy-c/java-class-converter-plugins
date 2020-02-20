@@ -34,11 +34,22 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
     private fun resolveClass(clazz: PsiNamedElement): Set<ClassMetadata> {
         val result = mutableSetOf<ClassMetadata>()
         if (resolvedClasses.add(clazz)) {
+
             val name = clazz.name ?: return emptySet()
             val classEvaluator = ClassEvaluator.create(clazz) ?: return emptySet()
+
             val doc = classEvaluator.getDocResolver()?.getDocContent()
             val fields = classEvaluator.getFields()
-            result.add(ClassMetadata(name, fields.mapNotNull(this::resolveClassProperty).toSet(), doc))
+            val isEnum = classEvaluator.isEnum()
+            result.add(
+                ClassMetadata(
+                    name, fields.mapNotNull(this::resolveClassProperty).toSet(), doc, isEnum, if (isEnum) {
+                        this.resolveEnumClass(clazz)
+                    } else {
+                        emptySet()
+                    }
+                )
+            )
             result.addAll(otherCustomClasses.map(this::resolveClass).flatten())
         }
         return result
@@ -62,7 +73,7 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
         if (!psiElement.isValid) return null
         val typeEvaluator = TypeEvaluator.create(psiElement) ?: return null
         val obviousType = typeEvaluator.getObviousType()
-        if (obviousType == ObviousType.OBJECT) {
+        if (obviousType == ObviousType.OBJECT || obviousType == ObviousType.ENUM) {
             typeEvaluator.getClass()?.let {
                 otherCustomClasses.add(it)
             }
@@ -72,6 +83,16 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
             obviousType,
             typeEvaluator.getTypeParameters()?.mapNotNull(this::resolveTypeMetadata) ?: emptyList()
         )
+    }
+
+    private fun resolveEnumClass(psiNamedElement: PsiNamedElement): Set<EnumEntryMetadata> {
+        val enumClassEvaluator = EnumClassEvaluator.create(psiNamedElement) ?: return emptySet()
+        return enumClassEvaluator.getFields().mapNotNull {
+            val fields = FieldEvaluator.create(it) ?: return@mapNotNull null
+            val doc = fields.getDocResolver()?.getDocContent()
+            val name = it.name ?: return@mapNotNull null
+            EnumEntryMetadata(name, doc)
+        }.toSet()
     }
 
 }

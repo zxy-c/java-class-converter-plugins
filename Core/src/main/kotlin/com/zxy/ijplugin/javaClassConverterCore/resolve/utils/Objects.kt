@@ -30,13 +30,34 @@ class ClassMetadata(
     val name: String,
     val properties: Set<ClassPropertyMetadata>,
     val doc: String?,
-    val isEnum: Boolean
+    val isEnum: Boolean,
+    val enums: Set<EnumEntryMetadata>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
         other as ClassMetadata
+
+        if (name != other.name) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return name.hashCode()
+    }
+}
+
+class EnumEntryMetadata(
+    val name: String,
+    val doc: String?
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as EnumEntryMetadata
 
         if (name != other.name) return false
 
