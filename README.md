@@ -13,31 +13,76 @@ Declarations for converting Java and Kotlin classes to other languages
     
 before
 ```java
-class Book{
-    final String name;
-    double price;
-    Map<String,String> properties;
-    List<Author> authors;    
+/**
+ * classDoc
+ */
+public class JavaClass {
+    private String demo;
+    private int number1;
+    private long number2;
+    private final Boolean aBoolean = true;
+    private List<String> list;
+    private String[] array;
+    private CustomClass customClass;
+    private Map<String,CustomClass> map;
+    private C c;
+    /**
+     * fieldDoc
+     * fieldDoc
+     */
+    private float f;
 }
 
-class Author{
-    String name;
-    Object age;
+enum C{
+    /**
+     * enumDoc
+     * enumDoc
+     */
+    A,
+    B
+}
+
+class CustomClass{
+    private String a;
+
 }
 ```
 
 after
 ```typescript
-interface Book{
-    readonly name:string;
-    price:number;
-    [key :string]: string;
-    authors:Array<Author>
+/*
+ * classDoc
+ */
+interface JavaClass {
+    demo: string;
+    number1: number;
+    number2: number;
+    readonly aBoolean: boolean;
+    list: Array<string>;
+    array: Array<string>;
+    customClass: CustomClass;
+    map: {
+        [key: string]: CustomClass
+    };
+    c: C;
+    /*
+     * fieldDoc
+     * fieldDoc
+     */
+    f: number;
 }
 
-interface Author{
-    name:string;
-    age:number;
+interface CustomClass {
+    a: string;
+}
+
+enum C {
+    /*
+     * enumDoc
+     * enumDoc
+     */
+    A,
+    B
 }
 ```
 
@@ -51,30 +96,68 @@ interface Author{
 
 before
 ```java
-class Book{
-    final String name;
-    double price;
-    Map<String,String> properties;
-    List<Author> authors;    
+/**
+ * classDoc
+ */
+public class JavaClass {
+    private String demo;
+    private int number1;
+    private long number2;
+    private final Boolean aBoolean = true;
+    private List<String> list;
+    private String[] array;
+    private CustomClass customClass;
+    private Map<String,CustomClass> map;
+    private C c;
+    /**
+     * fieldDoc
+     * fieldDoc
+     */
+    private float f;
 }
 
-class Author{
-    String name;
-    Object age;
+enum C{
+    /**
+     * enumDoc
+     * enumDoc
+     */
+    A,
+    B
+}
+
+class CustomClass{
+    private String a;
+
 }
 ```
 
 after
 ```dart
-class Book{
-    final String name;
-    double price;
-    Map<String,String> properties;
-    List<Author> authors; 
+///classDoc
+class JavaClass {
+  String demo;
+  int number1;
+  int number2;
+  final bool aBoolean;
+  List<String> list;
+  List<String> array;
+  CustomClass customClass;
+  Map<String, CustomClass> map;
+  C c;
+
+  ///fieldDoc
+  ///fieldDoc
+  int f;
 }
 
-class Author{
-    String name;
-    var age;
+class CustomClass {
+  String a;
+}
+
+enum C {
+  ///enumDoc
+  ///enumDoc
+  A,
+  B
 }
 ```

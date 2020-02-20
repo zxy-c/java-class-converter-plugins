@@ -33,16 +33,3 @@ class CustomClass{
     private String a;
 
 }
-
-class Book{
-    String name;
-    double price;
-    Map<String,String> properties;
-    List<Author> authors;
-}
-
-class Author{
-    String name;
-    Object age;
-}
-
