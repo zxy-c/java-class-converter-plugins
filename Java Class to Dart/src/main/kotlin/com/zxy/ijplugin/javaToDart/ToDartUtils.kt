@@ -11,43 +11,36 @@
 
 package com.zxy.ijplugin.javaToDart
 
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
-import com.zxy.ijplugin.psiEvaluator.resolve.*
+import com.zxy.ijplugin.javaClassConverterCore.resolve.utils.*
 
-object ToDartUtils{
+object ToDartUtils {
     fun convertClass(clazz: PsiNamedElement): String? {
-        val result = StringBuilder()
-        val name = clazz.name ?: return null
-        val classEvaluator = ClassEvaluator.create(clazz) ?: return null
-        val doc = classEvaluator.getDocResolver()?.getDocContent()
-        val fields = classEvaluator.getFields()
-        doc?.let {
-            result.append(it)
-        }
-        result.append("class $name{\n")
-        result.append(fields.mapNotNull(this::convertField).joinToString("\n"))
-        result.append("\n}")
-        fields.forEach {
-            val fieldEvaluator = FieldEvaluator.create(it) ?: return@forEach
-            val type = fieldEvaluator.getType() ?: return@forEach
-            val typeEvaluator = TypeEvaluator.create(type) ?: return@forEach
-            val subClass = typeEvaluator.getClass() ?: return@forEach
-            if (typeEvaluator.isCustomObject()) {
-                result.append("\n\n")
-                result.append(this.convertClass(subClass))
+        val classes = ClassMetadataResolver.resolve(clazz)
+        if (classes.isEmpty()) return null
+        return classes.joinToString("\n\n") {
+            val classStringBuilder = StringBuilder()
+            this.appendDoc(classStringBuilder, it.doc)
+            if (it.isEnum) {
+                classStringBuilder.append("enum ${it.name}{\n")
+                classStringBuilder.append(it.enums.mapNotNull(this::convertEnumEntry).joinToString(",\n"))
+                classStringBuilder.append("\n}")
+            } else {
+                classStringBuilder.append("class ${it.name}{\n")
+                classStringBuilder.append(it.properties.mapNotNull(this::convertField).joinToString("\n"))
+                classStringBuilder.append("\n}")
             }
+            classStringBuilder.toString()
         }
-        return result.toString()
     }
 
-    private fun convertField(field: PsiNamedElement): String? {
+    private fun convertField(field: ClassPropertyMetadata): String? {
         val fieldString = StringBuilder()
-        val fieldEvaluator = FieldEvaluator.create(field) ?: return null
-        val type = fieldEvaluator.getType() ?: return null
-        val name = field.name ?: return null
-        val typeSection = convertType(type) ?: return ""
-        if (fieldEvaluator.isFinal()) {
+        this.appendDoc(fieldString, field.doc)
+        val type = field.type
+        val name = field.name
+        val typeSection = convertType(type) ?: return null
+        if (field.isFinal) {
             fieldString.append("final ")
         }
         fieldString.append(typeSection)
@@ -57,37 +50,60 @@ object ToDartUtils{
         return fieldString.toString()
     }
 
-    private fun convertType(type: PsiElement): String? {
-        val typeEvaluator = TypeEvaluator.create(type) ?: return null
-        return if (typeEvaluator.isBoolean()) {
-            "bool"
-        } else if (typeEvaluator.isNumber()) {
-            "int"
-        } else if (typeEvaluator.isString()) {
-            "String"
-        } else if (typeEvaluator.isMap()) {
-            val typeParameters = typeEvaluator.getTypeParameters() ?: return null
-            val types = typeParameters.take(2).mapNotNull(this::convertType)
-            if (types.size != 2) return null
-            "Map<${types[0]},${types[1]}>"
-        } else if (typeEvaluator.isCollection() || typeEvaluator.isArray()) {
-            val firstType = typeEvaluator.getTypeParameters()?.firstOrNull() ?: return null
-            val typeString = this.convertType(firstType) ?: return null
-            "List<${typeString}>"
-        } else if (typeEvaluator.isAny()) {
-            "var"
-        } else {
-            val typeParameters = typeEvaluator.getTypeParameters() ?: return null
-            val types = typeParameters.map(this::convertType)
-            if (types.any { it == null }) {
-                return null
+    private fun convertType(typeMetadata: TypeMetadata): String? {
+        return when (typeMetadata.type) {
+            ObviousType.ARRAY, ObviousType.COLLECTION -> {
+                val firstType = typeMetadata.types.firstOrNull() ?: return null
+                val typeString = this.convertType(firstType) ?: return null
+                "List<$typeString>"
             }
-            val typesString = if (types.isNotEmpty()) {
-                "<${types.joinToString(", ")}>"
-            } else {
-                ""
+            ObviousType.DOUBLE, ObviousType.FLOAT -> {
+                "double"
             }
-            "${typeEvaluator.getName()}$typesString"
+            ObviousType.INT, ObviousType.LONG -> {
+                "int"
+            }
+            ObviousType.BOOLEAN -> {
+                "bool"
+            }
+            ObviousType.STRING -> {
+                "String"
+            }
+            ObviousType.MAP -> {
+                val types = typeMetadata.types.take(2).mapNotNull { this.convertType(it) }
+                if (types.size != 2) return null
+                "Map<${types[0]},${types[1]}>"
+            }
+            ObviousType.ANY -> {
+                "var"
+            }
+            else -> {
+                val types = typeMetadata.types.map { this.convertType(it) }
+                if (types.any { it == null }) {
+                    return null
+                }
+                val typesString = if (types.isNotEmpty()) {
+                    "<${types.joinToString(", ")}>"
+                } else {
+                    ""
+                }
+                "${typeMetadata.name}$typesString"
+            }
+        }
+    }
+
+    private fun convertEnumEntry(enumEntryMetadata: EnumEntryMetadata): String? {
+        val enumEntryStringBuilder = StringBuilder()
+        this.appendDoc(enumEntryStringBuilder, enumEntryMetadata.doc)
+        enumEntryStringBuilder.append(enumEntryMetadata.name)
+        return enumEntryStringBuilder.toString()
+    }
+
+    private fun appendDoc(stringBuilder: StringBuilder, doc: String?) {
+        doc?.let {
+            stringBuilder.append("///")
+            stringBuilder.append(doc.split("\n").joinToString("\n///"))
+            stringBuilder.append("\n")
         }
     }
 }
