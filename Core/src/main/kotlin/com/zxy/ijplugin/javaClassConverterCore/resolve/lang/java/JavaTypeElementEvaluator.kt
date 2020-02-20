@@ -47,6 +47,6 @@ class JavaTypeElementEvaluator(typeElement: PsiTypeElement) : AbstractJavaTypeEv
     }
 
     override fun getName(): String? {
-        return this.type.innermostComponentReferenceElement?.firstChild?.text
+        return this.type.innermostComponentReferenceElement?.firstChild?.text ?: this.type.firstChild?.text
     }
 }
