@@ -9,7 +9,10 @@
     - 生成文件至指定目录
     - 生成文件保存在剪切板
     - 生成代码保存在剪切板
-    
+
+### 如何使用
+在Java类或Kotlin类上右键弹出菜单，根据需要选择*Convert to Typescript Interface*组中的子项 
+
 before
 ```java
 /**
@@ -92,6 +95,8 @@ enum C {
     - 生成文件保存在剪切板
     - 生成代码保存在剪切板
     
+### 如何使用
+在Java类或Kotlin类上右键弹出菜单，根据需要选择*Convert to Dart Class*组中的子项
 
 before
 ```java

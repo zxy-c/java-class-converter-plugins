@@ -11,6 +11,9 @@ Declarations for converting Java and Kotlin classes to other languages
     - Generated files are saved in the clipboard
     - Generated code saved in clipboard
     
+### How to use   
+Right-click on the Java class or Kotlin class and select the sub-items in the *Convert to Typescript Interface* group as required
+    
 before
 ```java
 /**
@@ -93,6 +96,8 @@ enum C {
     - Generated files are saved in the clipboard
     - Generated code saved in clipboard
 
+### How to use   
+Right-click on the Java class or Kotlin class and select the sub-items in the *Convert to Dart Class* group as required
 
 before
 ```java
