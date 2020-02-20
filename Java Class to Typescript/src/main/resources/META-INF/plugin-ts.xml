@@ -15,14 +15,14 @@
                 class="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptFileAtClipboardAction"
                 text="Generate Typescript File to Clipboard"
                 description="Convert a class to Typescript file">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="com.zxy.ijplugin.javaToDart.JavaClassToTypescriptInterface" anchor="last"/>
         </action>
 
         <action id="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptInterfaceAtFileAction"
                 class="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptInterfaceAtFileAction"
                 text="Generate Typescript File"
                 description="Convert a class to Typescript file">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="com.zxy.ijplugin.javaToDart.JavaClassToTypescriptInterface" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>

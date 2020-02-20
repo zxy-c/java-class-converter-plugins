@@ -25,11 +25,18 @@
     </extensions>
 
     <actions>
+        <group id="com.zxy.ijplugin.javaToDart.JavaClassToTypescriptInterface"
+               text="Convert to Typescript Interface"
+               popup="true"
+               compact="true"
+        >
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </group>
         <action id="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptInterfaceAtClipboardAction"
                 class="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptInterfaceAtClipboardAction"
                 text="Generate Typescript Interface to Clipboard"
                 description="Convert a class to Typescript interface">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="com.zxy.ijplugin.javaToDart.JavaClassToTypescriptInterface"/>
         </action>
     </actions>
 </idea-plugin>
