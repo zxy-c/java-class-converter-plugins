@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.Map;
-
+/**
+ * classDoc
+ */
 public class JavaClass {
     private String demo;
     private int number1;
@@ -10,6 +12,21 @@ public class JavaClass {
     private String[] array;
     private CustomClass customClass;
     private Map<String,CustomClass> map;
+    private C c;
+    /**
+     * fieldDoc
+     * fieldDoc
+     */
+    private float f;
+}
+
+enum C{
+    /**
+     * enumDoc
+     * enumDoc
+     */
+    A,
+    B
 }
 
 class CustomClass{
@@ -28,3 +45,4 @@ class Author{
     String name;
     Object age;
 }
+
