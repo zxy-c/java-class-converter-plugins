@@ -11,14 +11,14 @@
 
 <idea-plugin>
     <actions>
-        <action id="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptFileAtClipboardAction"
+        <action id="com.zxy.ijplugin.javaToDart.actions.ClassToDartFileAtClipboardAction"
                 class="com.zxy.ijplugin.javaToDart.actions.ClassToDartFileAtClipboardAction"
                 text="Generate Dart File to Clipboard"
                 description="Convert a class to Dart file">
             <add-to-group group-id="com.zxy.ijplugin.javaToDart.JavaClassToDartClass"/>
         </action>
 
-        <action id="com.zxy.ijplugin.javaToTypescript.actions.ClassToTypescriptInterfaceAtFileAction"
+        <action id="com.zxy.ijplugin.javaToDart.actions.ClassToDartClassAtFileAction"
                 class="com.zxy.ijplugin.javaToDart.actions.ClassToDartClassAtFileAction"
                 text="Generate Dart File"
                 description="Convert a class to Dart file">
