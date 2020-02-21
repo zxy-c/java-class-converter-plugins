@@ -8,7 +8,6 @@
  *    IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR
  *    PURPOSE.
  */
-
 package com.zxy.ijplugin.javaClassConverterCore.resolve.utils
 
 import com.intellij.psi.PsiElement
@@ -23,7 +22,6 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
         }
     }
 
-    private val otherCustomClasses = mutableSetOf<PsiNamedElement>()
 
     private val resolvedClasses = mutableSetOf<PsiNamedElement>()
 
@@ -33,6 +31,7 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
 
     private fun resolveClass(clazz: PsiNamedElement): Set<ClassMetadata> {
         val result = mutableSetOf<ClassMetadata>()
+        val otherCustomClasses = mutableSetOf<PsiNamedElement>()
         if (resolvedClasses.add(clazz)) {
 
             val name = clazz.name ?: return emptySet()
@@ -43,7 +42,11 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
             val isEnum = classEvaluator.isEnum()
             result.add(
                 ClassMetadata(
-                    name, fields.mapNotNull(this::resolveClassProperty).toSet(), doc, isEnum, if (isEnum) {
+                    name,
+                    fields.mapNotNull { property -> this.resolveClassProperty(property, otherCustomClasses) }.toSet(),
+                    doc,
+                    isEnum,
+                    if (isEnum) {
                         this.resolveEnumClass(clazz)
                     } else {
                         emptySet()
@@ -55,21 +58,27 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
         return result
     }
 
-    private fun resolveClassProperty(property: PsiNamedElement): ClassPropertyMetadata? {
+    private fun resolveClassProperty(
+        property: PsiNamedElement,
+        otherCustomClasses: MutableSet<PsiNamedElement>
+    ): ClassPropertyMetadata? {
         val fieldEvaluator = FieldEvaluator.create(property) ?: return null
         val name = property.name ?: return null
         val type = fieldEvaluator.getType() ?: return null
         val typeEvaluator = TypeEvaluator.create(type) ?: return null
         return ClassPropertyMetadata(
             name,
-            resolveTypeMetadata(type) ?: return null,
+            resolveTypeMetadata(type, otherCustomClasses) ?: return null,
             typeEvaluator.isNullable(),
             fieldEvaluator.isFinal(),
             fieldEvaluator.getDocResolver()?.getDocContent()
         )
     }
 
-    private fun resolveTypeMetadata(psiElement: PsiElement): TypeMetadata? {
+    private fun resolveTypeMetadata(
+        psiElement: PsiElement,
+        otherCustomClasses: MutableSet<PsiNamedElement>
+    ): TypeMetadata? {
         if (!psiElement.isValid) return null
         val typeEvaluator = TypeEvaluator.create(psiElement) ?: return null
         val obviousType = typeEvaluator.getObviousType()
@@ -81,7 +90,13 @@ class ClassMetadataResolver private constructor(private val clazz: PsiNamedEleme
         return TypeMetadata(
             typeEvaluator.getName() ?: return null,
             obviousType,
-            typeEvaluator.getTypeParameters()?.mapNotNull(this::resolveTypeMetadata) ?: emptyList()
+            typeEvaluator.getTypeParameters()?.mapNotNull { it ->
+                this.resolveTypeMetadata(
+                    it,
+                    otherCustomClasses
+                )
+            }
+                ?: emptyList()
         )
     }
 
