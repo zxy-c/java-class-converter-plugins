@@ -16,9 +16,8 @@ plugins {
 }
 
 group 'org.ijplugin'
-version '1.0.1'
+version '1.0.2'
 
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -50,4 +49,7 @@ publishPlugin{
 
 patchPluginXml{
     sinceBuild "192"
+    changeNotes """
+Replaced with a dynamic expansion point
+"""
 }

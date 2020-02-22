@@ -20,14 +20,19 @@
     <depends optional="true" config-file="plugin-kotlin.xml">org.jetbrains.kotlin</depends>
     <extensionPoints>
         <extensionPoint name="typeEvaluatorProvider"
+                        dynamic="true"
                         interface="com.zxy.ijplugin.javaClassConverterCore.resolve.TypeEvaluatorProvider"/>
         <extensionPoint name="fieldEvaluatorProvider"
+                        dynamic="true"
                         interface="com.zxy.ijplugin.javaClassConverterCore.resolve.FieldEvaluatorProvider"/>
         <extensionPoint name="enumClassEvaluatorProvider"
+                        dynamic="true"
                         interface="com.zxy.ijplugin.javaClassConverterCore.resolve.EnumClassEvaluatorProvider"/>
         <extensionPoint name="docResolverProvider"
+                        dynamic="true"
                         interface="com.zxy.ijplugin.javaClassConverterCore.resolve.DocResolverProvider"/>
         <extensionPoint name="classEvaluatorProvider"
+                        dynamic="true"
                         interface="com.zxy.ijplugin.javaClassConverterCore.resolve.ClassEvaluatorProvider"/>
     </extensionPoints>
 
